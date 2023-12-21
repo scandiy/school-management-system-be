@@ -1,0 +1,43 @@
+volumes:
+  data:
+
+services:
+  postgres:
+    image: postgres:latest
+    environment:
+      - POSTGRES_DB=school_db
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgrespw
+    ports:
+      - 5432:5432
+    volumes:
+      - data:/var/lib/postgresql
+
+  pg-admin:
+    image: dpage/pgadmin4:latest
+    environment:
+      - PGADMIN_DEFAULT_EMAIL=admin@email.com
+      - PGADMIN_DEFAULT_PASSWORD=postgrespw
+      - PGADMIN_LISTEN_PORT=5050
+      - PGADMIN_CONFIG_SERVER_MODE=True
+      - PGADMIN_SERVER_JSON_FILE=/pgadmin4/servers.json
+      - PGADMIN_SKIP_CHOWN=True
+    ports:
+      - 5050:5050
+    depends_on:
+      - postgres
+    volumes:
+      - ./configs/servers.json:/pgadmin4/servers.json
+
+  school-managment-system-be:
+    image: school-managment-system
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "8080:8080"
+    depends_on:
+      - postgres
+    environment:
+      - SERVER_PORT=8080
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres:5432/school_db

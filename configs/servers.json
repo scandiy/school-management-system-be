@@ -1,0 +1,14 @@
+{
+  "Servers": {
+    "1": {
+      "Group": "Servers",
+      "Name": "School",
+      "Host": "host.docker.internal",
+      "Port": 5432,
+      "MaintenanceDB": "school_db",
+      "Username": "postgres",
+      "PassFile": "/var/lib/postgresql/data/pgpass",
+      "SSLMode": "prefer"
+    }
+  }
+}
