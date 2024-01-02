@@ -1,7 +1,7 @@
 package com.students2.student2.services.schoolclass;
 
 import com.students2.student2.dtos.ClassDTO;
-import com.students2.student2.entities.Class;
+import com.students2.student2.entities.SchoolClass;
 import com.students2.student2.repositories.ClassRepository;
 import com.students2.student2.exceptions.StudentNotFoundException;
 import org.springframework.stereotype.Service;
@@ -23,7 +23,7 @@ public class ClassServiceImpl implements ClassService {
     }
     @Override
     public List<ClassDTO> getAllClasses() {
-        List<Class> classes = classRepository.findAll();
+        List<SchoolClass> classes = classRepository.findAll();
         List<ClassDTO> classDTOs = classes.stream().map(classEntity -> new ClassDTO(
                 classEntity.getId(),
                 classEntity.getName()
@@ -34,7 +34,7 @@ public class ClassServiceImpl implements ClassService {
 
     @Override
     public ClassDTO getClassById(Long id) {
-        Optional<Class> classOptional = classRepository.findById(id);
+        Optional<SchoolClass> classOptional = classRepository.findById(id);
         ClassDTO classDTO = classOptional.map(classEntity -> new ClassDTO(
                 classEntity.getId(),
                 classEntity.getName()
@@ -49,7 +49,7 @@ public class ClassServiceImpl implements ClassService {
 
     @Override
     public ClassDTO createClass(ClassDTO classDTO) {
-        Class classEntity = new Class();
+        SchoolClass classEntity = new SchoolClass();
         classEntity.setName(classDTO.getName());
 
         classEntity = classRepository.save(classEntity);

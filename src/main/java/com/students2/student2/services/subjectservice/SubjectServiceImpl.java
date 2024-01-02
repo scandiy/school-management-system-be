@@ -2,7 +2,7 @@ package com.students2.student2.services.subjectservice;
 
 import com.students2.student2.dtos.SubjectDTO;
 import com.students2.student2.entities.Subject;
-import com.students2.student2.entities.Class;
+import com.students2.student2.entities.SchoolClass;
 import com.students2.student2.repositories.ClassRepository;
 import com.students2.student2.repositories.SubjectRepository;
 import jakarta.transaction.Transactional;
@@ -94,7 +94,7 @@ public class SubjectServiceImpl implements SubjectService {
     @Transactional
     public Map<String, Long> associateSubjectWithClass(Long subjectId, Long classId) {
         Subject subject = subjectRepository.findById(subjectId).orElse(null);
-        Class classEntity = classRepository.findById(classId).orElse(null);
+        SchoolClass classEntity = classRepository.findById(classId).orElse(null);
         Map<String, Long> associationData = new HashMap<>();
 
         if (subject != null && classEntity != null) {
@@ -113,7 +113,7 @@ public class SubjectServiceImpl implements SubjectService {
     @Transactional
     public Map<String, Long> removeSubjectFromClass(Long subjectId, Long classId) {
         Subject subject = subjectRepository.findById(subjectId).orElse(null);
-        Class classEntity = classRepository.findById(classId).orElse(null);
+        SchoolClass classEntity = classRepository.findById(classId).orElse(null);
         Map<String, Long> disassociationData = new HashMap<>();
 
         if (subject != null && classEntity != null && subject.getClasses().contains(classEntity)) {

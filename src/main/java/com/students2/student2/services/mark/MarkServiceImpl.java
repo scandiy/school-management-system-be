@@ -20,7 +20,7 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
-public class    MarkServiceImpl implements MarkService {
+public class MarkServiceImpl implements MarkService {
 
     private final MarkRepository markRepository;
     private final StudentRepository studentRepository;

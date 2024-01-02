@@ -14,10 +14,21 @@ public class Student {
 
     @ManyToOne
     @JoinColumn(name = "class_id")
-    private Class studentClass;
+    private SchoolClass studentClass;
 
 
     public Student() {
+    }
+
+    public Student(Long id, String name) {
+        this.id = id;
+        this.name = name;
+    }
+
+    public Student(Long id, String name, SchoolClass studentClass) {
+        this.id = id;
+        this.name = name;
+        this.studentClass = studentClass;
     }
 
     public Long getId() {
@@ -36,11 +47,11 @@ public class Student {
         this.name = name;
     }
 
-    public Class getStudentClass() {
+    public SchoolClass getStudentClass() {
         return studentClass;
     }
 
-    public void setStudentClass(Class studentClass) {
+    public void setStudentClass(SchoolClass studentClass) {
         this.studentClass = studentClass;
     }
 }

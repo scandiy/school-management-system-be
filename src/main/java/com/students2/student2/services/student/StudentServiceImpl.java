@@ -1,7 +1,7 @@
 package com.students2.student2.services.student;
 
 import com.students2.student2.dtos.StudentDTO;
-import com.students2.student2.entities.Class;
+import com.students2.student2.entities.SchoolClass;
 import com.students2.student2.entities.Mark;
 import com.students2.student2.entities.Student;
 import com.students2.student2.repositories.ClassRepository;
@@ -64,7 +64,7 @@ public class StudentServiceImpl implements StudentService {
         student.setName(studentDTO.getName());
 
         if (studentDTO.getClassId() != null) {
-            Class studentClass = new Class();
+            SchoolClass studentClass = new SchoolClass();
             studentClass.setId(studentDTO.getClassId());
             student.setStudentClass(studentClass);
         }
@@ -81,7 +81,7 @@ public class StudentServiceImpl implements StudentService {
             student.setName(studentDTO.getName());
 
             if (studentDTO.getClassId() != null) {
-                Class studentClass = new Class();
+                SchoolClass studentClass = new SchoolClass();
                 studentClass.setId(studentDTO.getClassId());
                 student.setStudentClass(studentClass);
             }
@@ -115,12 +115,30 @@ public class StudentServiceImpl implements StudentService {
             throw new StudentNotFoundException();
         }
 
-        double averageMarks = calculateAverageMarks(student);
+        List<Mark> marks = markRepository.findByStudentId(student.getId());
+
+        double averageMarks;
+
+        if (marks.isEmpty()) {
+            averageMarks = 0.0;
+        }
+        else {
+            int totalMarks = 0;
+            for (Mark mark : marks) {
+                totalMarks += mark.getValue();
+            }
+
+            averageMarks = totalMarks / marks.size();
+        }
 
         if (averageMarks >= 3) {
-            clearStudentMarks(student);
+            if (!marks.isEmpty()) {
+                for (Mark mark : marks) {
+                    markRepository.delete(mark);
+                }
+            }
 
-            Class newClass = classRepository.findById(classId).orElse(null);
+            SchoolClass newClass = classRepository.findById(classId).orElse(null);
             if (newClass != null) {
                 student.setStudentClass(newClass);
                 studentRepository.save(student);
@@ -133,30 +151,5 @@ public class StudentServiceImpl implements StudentService {
 
         logger.error("Moving student with ID {} to class with ID {} failed due to invalid conditions", studentId, classId);
         throw new StudentMovingToAnotherClassException();
-    }
-
-    public double calculateAverageMarks(Student student) {
-        List<Mark> marks = markRepository.findByStudentId(student.getId());
-
-        if (marks.isEmpty()) {
-            return 0.0;
-        }
-
-        int totalMarks = 0;
-        for (Mark mark : marks) {
-            totalMarks += mark.getValue();
-        }
-
-        return (double) totalMarks / marks.size();
-    }
-
-    public void clearStudentMarks(Student student) {
-        List<Mark> marks = markRepository.findByStudentId(student.getId());
-
-        if (!marks.isEmpty()) {
-            for (Mark mark : marks) {
-                markRepository.delete(mark);
-            }
-        }
     }
 }

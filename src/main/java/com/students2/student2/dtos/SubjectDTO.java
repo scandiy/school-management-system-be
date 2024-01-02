@@ -1,12 +1,12 @@
 package com.students2.student2.dtos;
 
-import com.students2.student2.entities.Class;
+import com.students2.student2.entities.SchoolClass;
 import java.util.Set;
 
 public class SubjectDTO {
     private Long id;
     private String name;
-    private Set<Class> classes;
+    private Set<SchoolClass> classes;
 
     public SubjectDTO() {
     }
@@ -32,11 +32,11 @@ public class SubjectDTO {
         this.name = name;
     }
 
-    public Set<Class> getClasses() {
+    public Set<SchoolClass> getClasses() {
         return classes;
     }
 
-    public void setClasses(Set<Class> classes) {
+    public void setClasses(Set<SchoolClass> classes) {
         this.classes = classes;
     }
 }

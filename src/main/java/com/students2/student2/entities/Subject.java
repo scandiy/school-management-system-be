@@ -21,9 +21,14 @@ public class Subject {
             joinColumns = @JoinColumn(name = "subject_id", referencedColumnName = "id"),
             inverseJoinColumns = @JoinColumn(name = "class_id", referencedColumnName = "id")
     )
-    private Set<Class> classes = new HashSet<>();
+    private Set<SchoolClass> classes = new HashSet<>();
 
     public Subject() {
+    }
+
+    public Subject(Long id, String name) {
+        this.id = id;
+        this.name = name;
     }
 
     public Subject(String name) {
@@ -46,21 +51,21 @@ public class Subject {
         this.name = name;
     }
 
-    public void addClass(Class classEntity) {
+    public void addClass(SchoolClass classEntity) {
         classes.add(classEntity);
         classEntity.getSubjects().add(this);
     }
 
-    public void removeClass(Class classEntity) {
+    public void removeClass(SchoolClass classEntity) {
         classes.remove(classEntity);
         classEntity.getSubjects().remove(this);
     }
 
-    public Set<Class> getClasses() {
+    public Set<SchoolClass> getClasses() {
         return classes;
     }
 
-    public void setClasses(Set<Class> classes) {
+    public void setClasses(Set<SchoolClass> classes) {
         this.classes = classes;
     }
 }

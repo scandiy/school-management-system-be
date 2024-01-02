@@ -45,7 +45,7 @@ public class MarketStackServiceImpl implements MarketStackService {
             int limit = 40;
             int offset = 0;
             int total;
-            int retries = 3; // Number of retries
+            int retries = 3;
 
             do {
                 String Url = MARKETSTACK_BASE_URL +
