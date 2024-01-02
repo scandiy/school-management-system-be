@@ -6,7 +6,7 @@ import java.util.Set;
 
 @Entity
 @Table(name = "class", schema = "school")
-public class Class {
+public class SchoolClass {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -18,13 +18,18 @@ public class Class {
     @ManyToMany(mappedBy = "classes", fetch = FetchType.LAZY)
     private Set<Subject> subjects = new HashSet<>();
 
-    public Class(Long id, String name, Set<Subject> subjects) {
+    public SchoolClass(Long id, String name, Set<Subject> subjects) {
         this.id = id;
         this.name = name;
         this.subjects = subjects;
     }
 
-    public Class() {
+    public SchoolClass(Long id, String name) {
+        this.id = id;
+        this.name = name;
+    }
+
+    public SchoolClass() {
     }
 
     public Long getId() {

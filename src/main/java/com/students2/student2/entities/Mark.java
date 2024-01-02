@@ -36,6 +36,13 @@ public class Mark {
         this.date = date;
     }
 
+    public Mark(Long id, int value, Subject subject, Student student, Date date) {
+        this.id = id;
+        this.value = value;
+        this.subject = subject;
+        this.student = student;
+        this.date = date;
+    }
 
     public Long getId() {
         return id;
